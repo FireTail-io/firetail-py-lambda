@@ -11,7 +11,7 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,3 +28,22 @@ jobs:
       - name: Run Tox
         # Run tox using the version of Python in `PATH`
         run: tox -e py
+      - uses: actions/cache@v3
+        with:
+          path: ./coverage.xml  # Note that this path is not influenced by working-directory set in defaults, for example
+          key: coverage
+
+  finish-codecov:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ./coverage.xml # See the note below
+          key: coverage  # Must be the same key you specified in the first job
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+          flags: unittests # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
