@@ -1,6 +1,5 @@
-__version__ = "0.1.0"
-
 import base64, json, time
+from .version import __version__
 
 def firetail_handler(enable_sleeper=False):
     def decorator(func):
