@@ -1,16 +1,17 @@
+from os.path import dirname, join
+
 import setuptools
-from os.path import join, dirname
 
 with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
-# with open(join(dirname(__file__), 'firetail_lambda/version.py'), 'r') as f:
-#     exec(f.read())
+with open(join(dirname(__file__), 'firetail_lambda/version.py'), 'r') as f:
+    exec(f.read())
 
 setuptools.setup(
     name='Firetail-Lambda',
     author='Riley Priddle',
-    version='0.1.0',
+    version=__version__,
     author_email='riley@firetail.io',
     description='Firetail Lambda Package',
     keywords='pypi, package',
