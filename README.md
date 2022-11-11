@@ -23,9 +23,11 @@ pip install -U firetail-lambda
 
 Implementing Middleware in lambda function
 ```python
-from firetail_lambda import firetail_handler
+from firetail_lambda import firetail_handler, firetail_app
 
-@firetail_handler()
+app = firetail_app()
+
+@firetail_handler(app)
 def lambda_handler(event, context):
     return {
         "statusCode": 200,
@@ -36,9 +38,11 @@ def lambda_handler(event, context):
 ```
 Multiple Event handlers
 ```python
-from firetail_lambda import firetail_handler
+from firetail_lambda import firetail_handler, firetail_app
 
-@firetail_handler()
+app = firetail_app()
+
+@firetail_handler(app)
 def lambda_handler(event, context):
     return {
         "statusCode": 200,
@@ -47,7 +51,7 @@ def lambda_handler(event, context):
         })
     }
 
-@firetail_handler()
+@firetail_handler(app)
 def lambda_handler_2(event, context):
     return {
         "statusCode": 200,
@@ -57,3 +61,32 @@ def lambda_handler_2(event, context):
     }
 ```
 
+Custom Sanitization callback
+```python
+from firetail_lambda import firetail_handler, firetail_app
+
+def sanitize_payloads(event, response):
+    new_event = copy.copy(event)
+    remove_headers = ['authorization','Authorization', 'x-api-key']
+    if 'headers' in event:
+        for header in remove_headers:
+            if header in event['headers']:
+                del new_event['headers'][header]
+            if 'multiValueHeaders' in event and header in event['multiValueHeaders']:
+                del new_event['multiValueHeaders'][header]
+                        
+    return new_event, response
+
+app = firetail_app()
+app.sanitization_callback = sanitize_payloads
+
+@firetail_handler(app)
+def lambda_handler(event, context):
+    return {
+        "statusCode": 200,
+        "body": json.dumps({
+            "message": "Hello"
+        })
+    }
+
+```
