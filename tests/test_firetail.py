@@ -1,13 +1,13 @@
 
 
 import contextlib
+import copy
 import json
 import time
 import unittest
-import copy
 from io import StringIO
 
-from firetail_lambda import firetail_handler, firetail_app
+from firetail_lambda import firetail_app, firetail_handler
 
 api_gateway_v1 = {
     "body": "eyJ0ZXN0IjoiYm9keSJ9",

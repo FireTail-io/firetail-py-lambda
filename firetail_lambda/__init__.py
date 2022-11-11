@@ -4,6 +4,7 @@ import time
 
 from .version import __version__
 
+
 class firetail_app:
     def __init__(self):
         self.sanitization_callback=default_sanitization_callback
