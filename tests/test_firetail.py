@@ -1,11 +1,9 @@
-
-
+import base64
 import contextlib
 import copy
 import json
 import time
 import unittest
-import base64
 from io import StringIO
 
 from firetail_lambda import firetail_app, firetail_handler
