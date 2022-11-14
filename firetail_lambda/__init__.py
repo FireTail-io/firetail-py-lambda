@@ -17,7 +17,7 @@ def default_sanitization_callback(event, response):
 def firetail_handler(self):
     def decorator(func):
         def wrapper_func(*args, **kwargs):
-            start_time = time.time()
+            wrapper_start_time = time.time()
             
             # make sure it is a valid handler function
             if len(args) < 2:
@@ -40,9 +40,9 @@ def firetail_handler(self):
             }).encode("utf-8")).decode("ascii")
             print("firetail:log-ext:%s" % (log_payload))
 
-            ## Ensure the execution time is >25ms to give the logs API time to propagate our print() to the extension.
+            ## Ensure the execution time is >500ms to give the logs API time to propagate our print() to the extension.
             if self.enable_sleeper:
-                time.sleep(max(time.time() - start_time + 500/1000, 0))
+                time.sleep(max(500/1000 - (time.time() - wrapper_start_time), 0))
 
             # Return the response from down the chain
             return response
