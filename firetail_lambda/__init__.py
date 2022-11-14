@@ -9,7 +9,8 @@ class firetail_app:
     def __init__(self):
         self.sanitization_callback=default_sanitization_callback
         self.enable_sleeper=False
-        self.sanitize_headers = ['authorization', 'x-api-key']
+        self.sanitize_headers=['authorization', 'x-api-key']
+        self.sleep_time=500
 
 def default_sanitization_callback(event, response):
     return event, response
@@ -42,7 +43,7 @@ def firetail_handler(self):
 
             ## Ensure the execution time is >500ms to give the logs API time to propagate our print() to the extension.
             if self.enable_sleeper:
-                time.sleep(max(500/1000 - (time.time() - wrapper_start_time), 0))
+                time.sleep(max(self.sleep_time/1000 - (time.time() - wrapper_start_time), 0))
 
             # Return the response from down the chain
             return response
