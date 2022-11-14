@@ -27,11 +27,17 @@ def firetail_handler(self):
             event, _ = args
 
             # Get the response returned down the chain
+            handler_start_time = time.time()
             response = func(*args, **kwargs)
+            handler_execution_time = (time.time() - handler_start_time) * 1000 # Milliseconds
 
-            # Create our log payload, and print it
+            # Sanitise the event & response, create our log payload, and print it
             event, response = self.sanitization_callback(event, response)
-            log_payload = base64.b64encode(json.dumps({"event": event,"response": response}).encode("utf-8")).decode("ascii")
+            log_payload = base64.b64encode(json.dumps({
+                "event": event,
+                "response": response,
+                "execution_time": handler_execution_time
+            }).encode("utf-8")).decode("ascii")
             print("firetail:log-ext:%s" % (log_payload))
 
             ## Ensure the execution time is >25ms to give the logs API time to propagate our print() to the extension.
