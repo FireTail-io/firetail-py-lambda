@@ -32,7 +32,7 @@ def firetail_handler(self):
             # Create our log payload, and print it
             event, response = self.sanitization_callback(event, response)
             log_payload = base64.b64encode(json.dumps({"event": event,"response": response}).encode("utf-8")).decode("ascii")
-            print("firetail:loggingapi:%s" % (log_payload))
+            print("firetail:log-ext:%s" % (log_payload))
 
             ## Ensure the execution time is >25ms to give the logs API time to propagate our print() to the extension.
             if self.enable_sleeper:
