@@ -9,9 +9,9 @@ The purpose of this module is to correctly log out the AWS Lambda event and resp
 The firetail_handler is a decorator that wraps around an event handler function in a AWS Lambda to extract the event and response payloads into a base64 logging message. 
 
 ###Supported Lambda Runtimes
-- [x] Python 3.7
-- [x] Python 3.8
-- [x] Python 3.9
+ ✅ Python 3.7
+ ✅ Python 3.8
+ ✅ Python 3.9
 
 ###Installation
 Install the module with using pip
@@ -23,6 +23,7 @@ pip install -U firetail-lambda
 
 Implementing Middleware in lambda function
 ```python
+import json
 from firetail_lambda import firetail_handler, firetail_app
 
 app = firetail_app()
@@ -38,6 +39,7 @@ def lambda_handler(event, context):
 ```
 Multiple Event handlers
 ```python
+import json
 from firetail_lambda import firetail_handler, firetail_app
 
 app = firetail_app()
@@ -63,6 +65,8 @@ def lambda_handler_2(event, context):
 
 Custom Sanitization callback
 ```python
+import copy
+import json
 from firetail_lambda import firetail_handler, firetail_app
 
 def sanitize_payloads(event, response):
