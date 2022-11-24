@@ -9,7 +9,7 @@ The purpose of this module is to correctly log out the AWS Lambda event and resp
 The firetail_handler is a decorator that wraps around an event handler function in a AWS Lambda to extract the event and response payloads into a base64 logging message. 
 
 
-###Supported Lambda Runtimes
+### Supported Lambda Runtimes
  ✅ Python 3.7
  ✅ Python 3.8
  ✅ Python 3.9
